@@ -15,7 +15,7 @@ See https://github.com/Saifdn/UTMHotel.
 \************************************************************************/
 
 #include "UTMHotel.hpp"
-#include "UTMHotelFunction.hpp"
+// #include "UTMHotelFunction.hpp"
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -25,7 +25,7 @@ using namespace std;
 int main()
 {
     char loop;
-    RoomList* room = new RoomList [15];
+    RoomList* room = new RoomList;
 
     do{
         int choice;
@@ -47,6 +47,10 @@ int main()
                 cout << "+===================+" << endl
                     << "     Reservation" << endl
                     << "+===================+" << endl;
+
+                room->ReadList();
+                system("PAUSE");
+                room->DisplayList();
 
             }
             else if(choice == 2){

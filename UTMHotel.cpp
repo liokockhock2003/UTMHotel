@@ -15,7 +15,7 @@ See https://github.com/Saifdn/UTMHotel.
 \************************************************************************/
 
 #include "UTMHotel.hpp"
-#include "UTMHotelFunction.hpp"
+// #include "UTMHotelFunction.hpp"
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -180,10 +180,80 @@ ReservationList::ReservationList(void){
     head = NULL;
 }
 
-bool ReservationList::isEmpty(){
+bool ReservationList::IsEmpty(){
     return head == NULL; 
 }
 
 Reservation* ReservationList::InsertNode(double x){
     //stop here
+};
+
+
+/*=========================================================
+    Definition class RoomList
+=========================================================*/
+
+Room* RoomList::InsertNode(Room* x){
+
+    int currIndex = 0;
+    Room* currNode = head;
+    Room* prevNode = NULL;
+
+    while(currNode && x->getRoomNumber() > currNode->getRoomNumber()){
+        prevNode = currNode;
+        currNode = currNode->next;
+        currIndex++;
+    }
+
+    Room* newNode = new Room;
+    newNode = x;
+
+    if(currIndex == 0){
+        newNode->next = head;
+        head = newNode;
+    }
+    else{
+        newNode->next = prevNode->next;
+        prevNode->next = newNode;
+    }
+    return newNode;
+}
+
+void RoomList::ReadList(){
+
+    fstream file;
+    file.open("Room/room.txt", ios::in);
+
+    int roomNumber;
+    string type;
+    float price;
+    int availability;
+    int count = 0;
+
+    while (file >> roomNumber >> type >> price >> availability && count < 15)
+    {
+        Room* temp = new Room(roomNumber, type, price, availability);
+        InsertNode(temp);
+        count++;
+        temp->displayRoomDetails();
+        // delete temp;  
+    }
+
+    file.close();
+
+}
+
+void RoomList::DisplayList(){
+
+    int num = 0;
+    Room* currNode = head;
+    
+    while(currNode != NULL){
+        cout << left
+            << setw(4) << currNode->getRoomNumber()
+            << setw(8) << currNode->getType()
+            << setw(3) << "RM "
+            << setw(4) << currNode->getRoomRate() << " per night" << endl; 
+    }
+
 }

@@ -31,6 +31,8 @@ private:
     bool isAvailable;
 
 public:
+    Room* next;
+
     Room();
     Room(int, string, float, bool);
     int getRoomNumber();
@@ -105,20 +107,21 @@ public:
     void displayBillingDetails();
 };
 
-class RoomList(){
+class RoomList{
     private:
         Room* head;
     public:
         RoomList(void) { head = NULL; }
         ~RoomList(void);
         bool IsEmpty() { return head == NULL; }
-        Room* InsertNode();
+        Room* InsertNode(Room* x);
         int FindNode(double x);
-        void DisplayList(void);
+        void ReadList();
+        void DisplayList();
 
 };
 
-class ReservationList(){
+class ReservationList{
     private:
         Reservation* head;
     public:
@@ -130,6 +133,6 @@ class ReservationList(){
         int DeleteNode(double x); 
         void DisplayList(void);
 
-}
+};
 
 #endif
