@@ -1,0 +1,13 @@
+*********************************
+|        UTM HOTEL BILL         |
+*********************************
+ Welcome to UTM Hotel!
+
+ Customer ID  : 
+ Room Number  : 
+ Total Amount : RM 
+
+*********************************
+|        UTM HOTEL BILL         |
+*********************************
+
