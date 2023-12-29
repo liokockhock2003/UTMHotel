@@ -29,9 +29,9 @@ int main()
     ReservationList *reservation = new ReservationList;
     CustomerList *customer = new CustomerList;
 
-    int customerCount = 0, roomNum[15], custId, reservationDate[3], custInDate[3], custOutDate[3];
+    int count = 0, customerCount = 0, roomNum[15], custId, reservationDate[3], custInDate[3], custOutDate[3];
     string custName = " ", custContact = " ";
-    char loop;
+    char loop = 'g';
 
     do
     {
@@ -58,7 +58,7 @@ int main()
                      << "     Reservation" << endl
                      << "+===================+" << endl;
 
-                if (customerCount == 0)
+                if (loop == 'g')
                 {
                     room->ReadList();
                 }
@@ -98,9 +98,13 @@ int main()
                      << "Enter the Customer ID to Check-Out: ";
                 cin >> custId;
 
-                int index = customer->FindNode(custId);
-                customer->DeleteNode(index);
+                customer->DeleteNode(custId);
                 customer->DisplayCustomerList();
+
+                // if(customerCount>custId-1){
+                //     customerCount = custId-1;
+                // }
+                // roomNum[custId-1] = 0;
             }
             else if (choice == 4)
             {
