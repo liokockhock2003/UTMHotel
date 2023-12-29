@@ -24,52 +24,60 @@ using namespace std;
 
 int main()
 {
-    char loop;
-    RoomList* room = new RoomList;
-    ReservationList* reservation = new ReservationList;
-    CustomerList* customer = new CustomerList;
+
+    RoomList *room = new RoomList;
+    ReservationList *reservation = new ReservationList;
+    CustomerList *customer = new CustomerList;
+
     int customerCount = 0, roomNum[15], custId, reservationDate[3], custInDate[3], custOutDate[3];
     string custName = " ", custContact = " ";
-    do{
+    char loop;
+
+    do
+    {
         int choice;
         bool error = false;
 
-        do{
+        do
+        {
             cout << "+===================+" << endl
-                << "      Main Menu" << endl
-                << "+===================+" << endl
-                << "1. Reservation" << endl
-                << "2. Check-In" << endl
-                << "3. Check-Out" << endl
-                << "Enter choice: ";
+                 << "      Main Menu" << endl
+                 << "+===================+" << endl
+                 << "1. Reservation" << endl
+                 << "2. Check-In" << endl
+                 << "3. Check-Out" << endl
+                 << "4. Display List" << endl
+                 << "Enter choice: ";
             cin >> choice;
             system("CLS");
 
-            if(choice == 1){
+            if (choice == 1)
+            {
 
                 cout << "+===================+" << endl
-                    << "     Reservation" << endl
-                    << "+===================+" << endl;
+                     << "     Reservation" << endl
+                     << "+===================+" << endl;
 
-                if(customerCount == 0){
+                if (customerCount == 0)
+                {
                     room->ReadList();
                 }
-                
-                system("PAUSE");
+
                 room->DisplayRoomList(roomNum);
 
                 roomNum[customerCount] = reservation->askReservation(reservationDate);
-                reservation->InsertReservation(customerCount+1, customerCount+1, roomNum[customerCount], reservationDate);
+                reservation->InsertReservation(customerCount + 1, customerCount + 1, roomNum[customerCount], reservationDate);
 
                 reservation->DisplayReservationList();
                 customerCount++;
             }
-            else if(choice == 2){
+            else if (choice == 2)
+            {
 
                 cout << "+===================+" << endl
-                    << "     Check-In" << endl
-                    << "+===================+" << endl
-                    << endl;
+                     << "     Check-In" << endl
+                     << "+===================+" << endl
+                     << endl;
 
                 custId = customer->askCustomer(custInDate, custOutDate, custName, custContact);
                 customer->InsertCustomer(custId, custName, custContact, custInDate, custOutDate);
@@ -77,27 +85,63 @@ int main()
 
                 reservation->DeleteNode(custId);
                 reservation->DisplayReservationList();
-
             }
-            else if(choice == 3){
+            else if (choice == 3)
+            {
 
                 cout << "+===================+" << endl
-                    << "     Check-Out" << endl
-                    << "+===================+" << endl;
+                     << "     Check-Out" << endl
+                     << "+===================+" << endl;
 
+                int custId;
+                cout << endl
+                     << "Enter the Customer ID to Check-Out: ";
+                cin >> custId;
+
+                int index = customer->FindNode(custId);
+                customer->DeleteNode(index);
+                customer->DisplayCustomerList();
             }
-            else{
+            else if (choice == 4)
+            {
+
+                cout << "+===================+" << endl
+                     << "     Display List" << endl
+                     << "+===================+" << endl
+                     << "1. Reservation List" << endl
+                     << "2. Customer List" << endl
+                     << "Enter choice: ";
+                cin >> choice;
+
+                if (choice == 1)
+                {
+                    reservation->DisplayReservationList();
+                }
+                else if (choice == 2)
+                {
+                    customer->DisplayCustomerList();
+                }
+                else
+                {
+                    cout << "ERROR: Not available option..." << endl;
+                    error = true;
+                }
+            }
+            else
+            {
                 cout << "ERROR: Not available option..." << endl;
                 error = true;
             }
 
-        } while(error);
-        
-        cout<<"Do you want to continue the program? (y/n): ";
-        cin>>loop;
-        
+        } while (error);
 
-    } while(loop == 'y' || loop == 'Y');
+        cout << endl
+             << "Do you want to continue the program? (y/n): ";
+        cin >> loop;
+
+        system("CLS");
+
+    } while (loop == 'y' || loop == 'Y');
 
     system("PAUSE");
     return 0;

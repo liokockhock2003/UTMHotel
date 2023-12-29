@@ -31,7 +31,7 @@ private:
     bool isAvailable;
 
 public:
-    Room* next;
+    Room *next;
 
     Room();
     Room(int, string, float, bool);
@@ -52,7 +52,7 @@ private:
     int reservationDate[3];
 
 public:
-    Reservation* next;
+    Reservation *next;
     Reservation();
     Reservation(int, int, int, int[]);
     ~Reservation();
@@ -74,7 +74,7 @@ private:
     int checkOutDate[3];
 
 public:
-    Customer* next;
+    Customer *next;
     Customer();
     Customer(int, string, string, int[], int[]);
     ~Customer();
@@ -107,47 +107,51 @@ public:
     void displayBillingDetails();
 };
 
-class RoomList{
-    private:
-        Room* head;
-    public:
-        RoomList(void) { head = NULL; }
-        ~RoomList(void);
-        bool IsEmpty() { return head == NULL; }
-        Room* InsertRoom(Room* x);
-        int FindNode(double x);
-        void ReadList();
-        void DisplayRoomList(int[]);
+class RoomList
+{
+private:
+    Room *head;
 
+public:
+    RoomList(void) { head = NULL; }
+    ~RoomList(void);
+    bool IsEmpty() { return head == NULL; }
+    Room *InsertRoom(Room *x);
+    int FindNode(double x);
+    void ReadList();
+    void DisplayRoomList(int[]);
 };
 
-class ReservationList{
-    private:
-        Reservation* head;
-    public:
-        ReservationList(void);
-        ~ReservationList(void);
-        bool IsEmpty();
-        Reservation* InsertReservation(int, int, int, int[]); 
-        int FindNode(double x);
-        int DeleteNode(int); 
-        void DisplayReservationList(void);
-        int askReservation(int[]);
+class ReservationList
+{
+private:
+    Reservation *head;
 
+public:
+    ReservationList(void);
+    ~ReservationList(void);
+    bool IsEmpty();
+    Reservation *InsertReservation(int, int, int, int[]);
+    int FindNode(double x);
+    int DeleteNode(int);
+    void DisplayReservationList(void);
+    int askReservation(int[]);
 };
 
-class CustomerList{
-    private:
-        Customer* head;
-    public:
-        CustomerList(void);
-        ~CustomerList();
-        bool IsEmpty();
-        Customer* InsertCustomer(int, string, string, int[], int[]); 
-        int FindNode(double x);
-        int DeleteNode(double x); 
-        void DisplayCustomerList(void);
-        int askCustomer(int[], int[], string&, string&);
+class CustomerList
+{
+private:
+    Customer *head;
+
+public:
+    CustomerList(void);
+    ~CustomerList();
+    bool IsEmpty();
+    Customer *InsertCustomer(int, string, string, int[], int[]);
+    int FindNode(int x);
+    int DeleteNode(int x);
+    void DisplayCustomerList(void);
+    int askCustomer(int[], int[], string &, string &);
 };
 
 #endif
