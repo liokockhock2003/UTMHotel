@@ -15,7 +15,7 @@ See https://github.com/Saifdn/UTMHotel.
 \************************************************************************/
 
 #include "UTMHotel.hpp"
-// #include "UTMHotelFunction.hpp"
+// #include "UTMHotel.cpp"
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -27,8 +27,9 @@ int main()
     char loop;
     RoomList* room = new RoomList;
     ReservationList* reservation = new ReservationList;
-    int customerCount = 0, roomNum[15], reservationDate[3];
-
+    CustomerList* customer = new CustomerList;
+    int customerCount = 0, roomNum[15], custId, reservationDate[3], custInDate[3], custOutDate[3];
+    string custName = " ", custContact = " ";
     do{
         int choice;
         bool error = false;
@@ -55,12 +56,12 @@ int main()
                 }
                 
                 system("PAUSE");
-                room->DisplayList(roomNum);
+                room->DisplayRoomList(roomNum);
 
-                roomNum[customerCount] = reservation->askUser(reservationDate);
-                reservation->InsertNode(customerCount+1, customerCount+1, roomNum[customerCount], reservationDate);
+                roomNum[customerCount] = reservation->askReservation(reservationDate);
+                reservation->InsertReservation(customerCount+1, customerCount+1, roomNum[customerCount], reservationDate);
 
-                reservation->DisplayList();
+                reservation->DisplayReservationList();
                 customerCount++;
             }
             else if(choice == 2){
@@ -69,6 +70,13 @@ int main()
                     << "     Check-In" << endl
                     << "+===================+" << endl
                     << endl;
+
+                custId = customer->askCustomer(custInDate, custOutDate, custName, custContact);
+                customer->InsertCustomer(custId, custName, custContact, custInDate, custOutDate);
+                customer->DisplayCustomerList();
+
+                reservation->DeleteNode(custId);
+                reservation->DisplayReservationList();
 
             }
             else if(choice == 3){

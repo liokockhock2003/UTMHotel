@@ -15,7 +15,7 @@ See https://github.com/Saifdn/UTMHotel.
 \************************************************************************/
 
 #ifndef UTMHOTEL_H
-#define UTNHOTEL_H
+#define UTMHOTEL_H
 
 #include <iostream>
 #include <string>
@@ -74,6 +74,7 @@ private:
     int checkOutDate[3];
 
 public:
+    Customer* next;
     Customer();
     Customer(int, string, string, int[], int[]);
     ~Customer();
@@ -113,10 +114,10 @@ class RoomList{
         RoomList(void) { head = NULL; }
         ~RoomList(void);
         bool IsEmpty() { return head == NULL; }
-        Room* InsertNode(Room* x);
+        Room* InsertRoom(Room* x);
         int FindNode(double x);
         void ReadList();
-        void DisplayList(int[]);
+        void DisplayRoomList(int[]);
 
 };
 
@@ -127,12 +128,26 @@ class ReservationList{
         ReservationList(void);
         ~ReservationList(void);
         bool IsEmpty();
-        Reservation* InsertNode(int, int, int, int[]); 
+        Reservation* InsertReservation(int, int, int, int[]); 
+        int FindNode(double x);
+        int DeleteNode(int); 
+        void DisplayReservationList(void);
+        int askReservation(int[]);
+
+};
+
+class CustomerList{
+    private:
+        Customer* head;
+    public:
+        CustomerList(void);
+        ~CustomerList();
+        bool IsEmpty();
+        Customer* InsertCustomer(int, string, string, int[], int[]); 
         int FindNode(double x);
         int DeleteNode(double x); 
-        void DisplayList(void);
-        int askUser(int[]);
-
+        void DisplayCustomerList(void);
+        int askCustomer(int[], int[], string&, string&);
 };
 
 #endif

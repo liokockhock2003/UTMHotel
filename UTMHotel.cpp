@@ -15,7 +15,6 @@ See https://github.com/Saifdn/UTMHotel.
 \************************************************************************/
 
 #include "UTMHotel.hpp"
-// #include "UTMHotelFunction.hpp"
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -61,16 +60,6 @@ void Customer::displayCustomerDetails()
     
 }
 
-void Customer::checkIn(Reservation reserve[], int count)
-{
-   
-}
-
-void Customer::checkOut(Customer cust[], int custId, int count)
-{
-  
-}
-
 /*=========================================================
     Definition class Reservation
 =========================================================*/
@@ -105,11 +94,6 @@ void Reservation::displayReservationDetails()
 {
     
 };
-
-void Reservation::createReservation(Room room[], int roomIndex)
-{
-    
-}
 
 /*=========================================================
     Definition class Billing
@@ -184,7 +168,7 @@ bool ReservationList::IsEmpty(){
     return head == NULL; 
 }
 
-Reservation* ReservationList::InsertNode(int custId, int reservationId, int roomNum, int reservationDate[]){
+Reservation* ReservationList::InsertReservation(int custId, int reservationId, int roomNum, int reservationDate[]){
     int currIndex = 0;
     Reservation* currNode = head;
     Reservation* prevNode = NULL;
@@ -208,13 +192,13 @@ Reservation* ReservationList::InsertNode(int custId, int reservationId, int room
     return newNode;
 };
 
-int ReservationList::askUser(int reservationDate[]){
+int ReservationList::askReservation(int reservationDate[]){
     int roomNum, date;
 
     cout<<"Enter Room Number that you desire: ";
     cin>>roomNum;
 
-    cout<<"Enter Day    : ";
+    cout<<"Enter Day     : ";
     cin>>date;
     reservationDate[0] = date;
     cout<<"Enter Month   : ";
@@ -227,24 +211,46 @@ int ReservationList::askUser(int reservationDate[]){
     return roomNum; 
 }
 
-void ReservationList::DisplayList(){
-    int num = 0;
+void ReservationList::DisplayReservationList(){
     Reservation* currNode = head;
     
     while(currNode != NULL){
         cout << left
             << setw(4) << currNode->getCustomerId()
-            << setw(8) << currNode->getReservationId()
-            << setw(4) << currNode->getRoomNumber() <<endl;
+            << setw(4) << currNode->getReservationId()
+            << setw(6) << currNode->getRoomNumber() <<endl;
         currNode = currNode->next;
     }
+}
+
+int ReservationList::DeleteNode(int custId){
+    Reservation* prevNode = NULL;
+    Reservation* currNode = head;
+    int currIndex = 1;
+    while(currNode && custId != currNode->getCustomerId()) {
+        prevNode = currNode;
+        currNode = currNode->next;
+        currIndex++;
+    }
+    if(currNode){
+        if(prevNode){
+            prevNode->next = currNode->next;
+            delete currNode;
+        }
+        else{
+            head = currNode->next;
+            delete currNode;
+        }
+        return currIndex;
+    }
+    return 0;
 }
 
 /*=========================================================
     Definition class RoomList
 =========================================================*/
 
-Room* RoomList::InsertNode(Room* x){
+Room* RoomList::InsertRoom(Room* x){
 
     int currIndex = 0;
     Room* currNode = head;
@@ -284,7 +290,7 @@ void RoomList::ReadList(){
     while (file >> roomNumber >> type >> price >> availability && count < 15)
     {
         Room* temp = new Room(roomNumber, type, price, availability);
-        InsertNode(temp);
+        InsertRoom(temp);
         count++;
     }
 
@@ -292,7 +298,7 @@ void RoomList::ReadList(){
 
 }
 
-void RoomList::DisplayList(int roomNum[]){
+void RoomList::DisplayRoomList(int roomNum[]){
 
     int count = 0;
     Room* currNode = head;
@@ -310,4 +316,87 @@ void RoomList::DisplayList(int roomNum[]){
         
     }
 
+}
+
+/*=========================================================
+    Definition class RoomList
+=========================================================*/
+CustomerList::CustomerList(void){
+    head = NULL;
+}
+
+Customer* CustomerList::InsertCustomer(int custId, string name, string contact, int inDate[], int outDate[]){
+    
+    int currIndex = 0;
+    Customer* currNode = head;
+    Customer* prevNode = NULL;
+
+    while(currNode && custId > currNode->getCustomerId()){
+        prevNode = currNode;
+        currNode = currNode->next;
+        currIndex++;
+    }
+
+    Customer* newNode = new Customer(custId, name, contact, inDate, outDate);
+
+    if(currIndex ==0){
+        newNode->next = head;
+        head = newNode;
+    }
+    else{
+        newNode->next = prevNode->next;
+        prevNode->next = newNode;
+    }
+    return newNode;
+}
+
+int CustomerList::askCustomer(int inDate[], int outDate[], string& custName, string& custContact){
+    int custID, date;
+
+    cout<<"Enter your Customer ID: "<<endl;
+    cin>>custID;
+
+    cout<<"Enter your Name:"<<endl;
+    cin>>custName;
+
+    cout<<"Enter your Phone Number:"<<endl;
+    cin>>custContact;
+
+
+    cout<<"Check-In Date!"<<endl;
+    cout<<"Enter Day     : ";
+    cin>>date;
+    inDate[0] = date;
+    cout<<"Enter Month   : ";
+    cin>>date;
+    inDate[1] = date;
+    cout<<"Enter Year    : ";
+    cin>>date;
+    inDate[2] = date;
+
+    cout<<"Check-Ou Date!"<<endl;
+    cout<<"Enter Day     : ";
+    cin>>date;
+    outDate[0] = date;
+    cout<<"Enter Month   : ";
+    cin>>date;
+    outDate[1] = date;
+    cout<<"Enter Year    : ";
+    cin>>date;
+    outDate[2] = date;
+    
+    return custID; 
+}
+
+void CustomerList::DisplayCustomerList(){
+    Customer* currNode = head;
+    
+    while(currNode != NULL){
+            cout << left
+            << setw(4) << currNode->getCustomerId()
+            << setw(8) << currNode->getName()
+            << setw(8) << currNode->getContact()<<endl;
+        currNode = currNode->next;
+        
+    }
 }
