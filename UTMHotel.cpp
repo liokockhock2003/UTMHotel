@@ -184,10 +184,61 @@ bool ReservationList::IsEmpty(){
     return head == NULL; 
 }
 
-Reservation* ReservationList::InsertNode(double x){
-    //stop here
+Reservation* ReservationList::InsertNode(int custId, int reservationId, int roomNum, int reservationDate[]){
+    int currIndex = 0;
+    Reservation* currNode = head;
+    Reservation* prevNode = NULL;
+
+    while(currNode && reservationId > currNode->getReservationId()){
+        prevNode = currNode;
+        currNode = currNode->next;
+        currIndex++;
+    }
+
+    Reservation* newNode = new Reservation(custId, reservationId, roomNum, reservationDate);
+
+    if(currIndex ==0){
+        newNode->next = head;
+        head = newNode;
+    }
+    else{
+        newNode->next = prevNode->next;
+        prevNode->next = newNode;
+    }
+    return newNode;
 };
 
+int ReservationList::askUser(int reservationDate[]){
+    int roomNum, date;
+
+    cout<<"Enter Room Number that you desire: ";
+    cin>>roomNum;
+
+    cout<<"Enter Day    : ";
+    cin>>date;
+    reservationDate[0] = date;
+    cout<<"Enter Month   : ";
+    cin>>date;
+    reservationDate[1] = date;
+    cout<<"Enter Year    : ";
+    cin>>date;
+    reservationDate[2] = date;
+    
+    return roomNum; 
+}
+
+void ReservationList::DisplayList(){
+    int num = 0;
+    Reservation* currNode = head;
+    
+    while(currNode != NULL){
+        cout << left
+            << setw(4) << currNode->getCustomerId()
+            << setw(8) << currNode->getReservationId()
+            << setw(4) << currNode->getRoomNumber() <<endl;
+        currNode = currNode->next;
+    }
+}
 
 /*=========================================================
     Definition class RoomList
@@ -208,7 +259,7 @@ Room* RoomList::InsertNode(Room* x){
     Room* newNode = new Room;
     newNode = x;
 
-    if(currIndex == 0){
+    if(currIndex ==0){
         newNode->next = head;
         head = newNode;
     }
@@ -235,25 +286,28 @@ void RoomList::ReadList(){
         Room* temp = new Room(roomNumber, type, price, availability);
         InsertNode(temp);
         count++;
-        temp->displayRoomDetails();
-        // delete temp;  
     }
 
     file.close();
 
 }
 
-void RoomList::DisplayList(){
+void RoomList::DisplayList(int roomNum[]){
 
-    int num = 0;
+    int count = 0;
     Room* currNode = head;
     
     while(currNode != NULL){
-        cout << left
+        if(roomNum[count] != currNode->getRoomNumber()){
+            cout << left
             << setw(4) << currNode->getRoomNumber()
             << setw(8) << currNode->getType()
             << setw(3) << "RM "
-            << setw(4) << currNode->getRoomRate() << " per night" << endl; 
+            << setw(4) << currNode->getRoomRate() << " per night" << endl;
+            count++;
+        }
+        currNode = currNode->next;
+        
     }
 
 }

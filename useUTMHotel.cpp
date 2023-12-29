@@ -26,6 +26,8 @@ int main()
 {
     char loop;
     RoomList* room = new RoomList;
+    ReservationList* reservation = new ReservationList;
+    int customerCount = 0, roomNum[15], reservationDate[3];
 
     do{
         int choice;
@@ -48,10 +50,18 @@ int main()
                     << "     Reservation" << endl
                     << "+===================+" << endl;
 
-                room->ReadList();
+                if(customerCount == 0){
+                    room->ReadList();
+                }
+                
                 system("PAUSE");
-                room->DisplayList();
+                room->DisplayList(roomNum);
 
+                roomNum[customerCount] = reservation->askUser(reservationDate);
+                reservation->InsertNode(customerCount+1, customerCount+1, roomNum[customerCount], reservationDate);
+
+                reservation->DisplayList();
+                customerCount++;
             }
             else if(choice == 2){
 
@@ -77,6 +87,7 @@ int main()
         
         cout<<"Do you want to continue the program? (y/n): ";
         cin>>loop;
+        
 
     } while(loop == 'y' || loop == 'Y');
 

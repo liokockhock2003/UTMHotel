@@ -51,9 +51,8 @@ private:
     int roomNumber;
     int reservationDate[3];
 
-    Reservation* next;
-
 public:
+    Reservation* next;
     Reservation();
     Reservation(int, int, int, int[]);
     ~Reservation();
@@ -117,7 +116,7 @@ class RoomList{
         Room* InsertNode(Room* x);
         int FindNode(double x);
         void ReadList();
-        void DisplayList();
+        void DisplayList(int[]);
 
 };
 
@@ -128,10 +127,11 @@ class ReservationList{
         ReservationList(void);
         ~ReservationList(void);
         bool IsEmpty();
-        Reservation* InsertNode(double x); 
+        Reservation* InsertNode(int, int, int, int[]); 
         int FindNode(double x);
         int DeleteNode(double x); 
         void DisplayList(void);
+        int askUser(int[]);
 
 };
 
